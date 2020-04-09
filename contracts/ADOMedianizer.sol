@@ -23,15 +23,17 @@ contract ADOMedianizer is EIP2362Interface{
   }
 
   //This is the exposed EIP function that loops through the oracle addresses and medianizes the values
-  function valueFor(bytes32 _id) public view returns(int,uint,uint){
-    int[] values;
+  function valueFor(bytes32 _id) external view returns(int,uint,uint){
+    int[] memory values;
     int _val;
     uint _time;
     uint _status;
+    uint len = 0;
     for(uint i = 0; i< oracles.length;i++){
-      _val,_time,_status = EIP2362Interface(oracles[i]).valueFor;
+      (_val,_time,_status) = EIP2362Interface(oracles[i]).valueFor(_id);
       if(_status == 200){
-        values.push[_val];
+        values[len] = _val;
+        len++;
       }
     }
     return (median(values),now,200);
@@ -52,7 +54,7 @@ contract ADOMedianizer is EIP2362Interface{
     index[_oracle] = 0;
   }
 
-  function median(int256[] memory a) internal returns(int){
+  function median(int256[] memory a) internal view returns(int){
         uint256 i;
         for (i = 1; i < a.length; i++) {
             int256 temp = a[i];
