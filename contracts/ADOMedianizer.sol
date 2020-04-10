@@ -1,4 +1,5 @@
 pragma solidity >=0.5.0 <0.7.0;
+
 import "./EIP2362Interface.sol";
 import "./SafeMath.sol";
 
@@ -6,7 +7,7 @@ contract ADOMedianizer is EIP2362Interface{
     /*Variables*/ 
     address public owner;
     address[] public oracles;
-    mapping(address => uint) index;
+    mapping(address => uint) public oraclesIndex;
 
   
     constructor() public {
@@ -24,7 +25,7 @@ contract ADOMedianizer is EIP2362Interface{
     * @dev allows owner to transfer ownership
     * @param _newOwner is the address ownership is being transferred to
     */
-    function changeOwner(address _newOwner) restricted() public{
+    function changeOwner(address _newOwner) restricted() external{
         owner = _newOwner;
     }
 
@@ -34,15 +35,20 @@ contract ADOMedianizer is EIP2362Interface{
     * @return median, timestamp and status
     */
     function valueFor(bytes32 _id) external view returns(int,uint,uint){
+        //make sure the array is not empty
+        //should there be a minimum values avaialbe?--this basically makes i
+        // a requirement to include at leas x amount of oracles, in this example: 3 
+        require(oracles.length-1 > 1, "No values available for this Id");
         int[] memory values;
-        int _val;
-        uint _time;
-        uint _status;
+        int val;
+        uint time;
+        uint status;
         uint len = 0;
-        for(uint i = 0; i< oracles.length;i++){
-           (_val,_time,_status) = EIP2362Interface(oracles[i]).valueFor(_id);
-              if(_status == 200){
-                  values[len] = _val;
+        uint num = oracles.length-1;
+        for(uint i = 1; i<num ;i++){
+           (val,time,status) = EIP2362Interface(oracles[i]).valueFor(_id);
+              if(status == 200){
+                  values[len] = val;
                   len++;
               }
         }
@@ -54,7 +60,7 @@ contract ADOMedianizer is EIP2362Interface{
     * @param _oracle is the oracle address for the oracle being added
     */
     function addOracle(address _oracle) restricted() external{
-        index[_oracle] = oracles.length;
+        oraclesIndex[_oracle] = oracles.length;
         oracles.push(_oracle);
     }
 
@@ -64,13 +70,14 @@ contract ADOMedianizer is EIP2362Interface{
     * @param _oracle is the oracle address for the oracle being excluded
     */
     function removeOracle(address _oracle) restricted() external{
-        uint _index = index[_oracle];
-        if(_index != oracles.length){
+        uint index = oraclesIndex[_oracle];
+        // just add the -1???
+        if(index != oracles.length-1){
             address last = oracles[oracles.length - 1];
-            oracles[_index] = last;
+            oracles[index] = last;
         }
         oracles.length--;
-        index[_oracle] = 0;
+        oraclesIndex[_oracle] = 0;
     }
 
 
