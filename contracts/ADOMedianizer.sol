@@ -101,7 +101,7 @@ contract ADOMedianizer is EIP2362Interface{
             }
         }
         uint256 m = a.length/2;
-        return(a[m]);//issue 8 ???
+        return(a[m]);//issue 8 ??? does solidity round up?
     }
 
 }

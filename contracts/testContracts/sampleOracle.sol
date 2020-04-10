@@ -6,7 +6,7 @@ import "../EIP2362Interface.sol";
 * 
 */
 
-contract sampleOracle is EIP2362Interface{
+contract SampleOracle is EIP2362Interface{
     /*Variables*/
     mapping(bytes32=>mapping(uint=>int256)) valuesByID;
     mapping (bytes32 => uint[]) timestampsByID;

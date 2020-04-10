@@ -1,4 +1,4 @@
-var ADOMedianizer = artifacts.require(".ADOMedianizer.sol");
+var ADOMedianizer = artifacts.require("./ADOMedianizer.sol");
 var sampleOracle = artifacts.require("./testContracts/sampleOracle.sol");
 
 
