@@ -5,7 +5,6 @@
       "constant": true,
       "inputs": [
         {
-          "internalType": "bytes32",
           "name": "_id",
           "type": "bytes32"
         }
@@ -13,17 +12,14 @@
       "name": "valueFor",
       "outputs": [
         {
-          "internalType": "int256",
           "name": "",
           "type": "int256"
         },
         {
-          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         },
         {
-          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -33,25 +29,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_id\",\"type\":\"bytes32\"}],\"name\":\"valueFor\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/company/code/ADOMedianizer/contracts/EIP2362Interface.sol\":\"EIP2362Interface\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/company/code/ADOMedianizer/contracts/EIP2362Interface.sol\":{\"keccak256\":\"0xe27057766988b4349e7d640c9aa6eaba312054b205b57301dd938534e58bd2df\",\"urls\":[\"bzz-raw://b9e3d383dbf9bc73ca193dc6f6fe11d8660fc70648e9a6c832b314a37a58a77f\",\"dweb:/ipfs/QmcxcTeUGJYL5nu6oF7eNzHbuxfA3PDrkn7vfx5vyZu1Ua\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"_id\",\"type\":\"bytes32\"}],\"name\":\"valueFor\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/users/lloya/documents/dda/1tellor/tellor/projects/adomedianizer/contracts/EIP2362Interface.sol\":\"EIP2362Interface\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/users/lloya/documents/dda/1tellor/tellor/projects/adomedianizer/contracts/EIP2362Interface.sol\":{\"keccak256\":\"0xe27057766988b4349e7d640c9aa6eaba312054b205b57301dd938534e58bd2df\",\"urls\":[\"bzzr://cb58bb7f54cb188dce7cfbb4341a4132e0f1bb5d4137bc9385b7a32d9a15832f\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity >=0.5.0 <0.7.0;\r\n\r\ninterface EIP2362Interface{\r\n  //This is the exposed EIP function that loops through the oracle addresses and medianizes the values\r\n  function valueFor(bytes32 _id) external view returns(int,uint,uint);\r\n}\r\n",
-  "sourcePath": "C:\\company\\code\\ADOMedianizer\\contracts\\EIP2362Interface.sol",
+  "sourcePath": "C:\\users\\lloya\\documents\\dda\\1tellor\\tellor\\projects\\adomedianizer\\contracts\\EIP2362Interface.sol",
   "ast": {
-    "absolutePath": "/C/company/code/ADOMedianizer/contracts/EIP2362Interface.sol",
+    "absolutePath": "/C/users/lloya/documents/dda/1tellor/tellor/projects/adomedianizer/contracts/EIP2362Interface.sol",
     "exportedSymbols": {
       "EIP2362Interface": [
-        284
+        314
       ]
     },
-    "id": 285,
+    "id": 315,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 272,
+        "id": 302,
         "literals": [
           "solidity",
           ">=",
@@ -70,9 +66,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 284,
+        "id": 314,
         "linearizedBaseContracts": [
-          284
+          314
         ],
         "name": "EIP2362Interface",
         "nodeType": "ContractDefinition",
@@ -80,22 +76,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 283,
+            "id": 313,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "valueFor",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 275,
+              "id": 305,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 274,
+                  "id": 304,
                   "name": "_id",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "188:11:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -104,7 +100,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 273,
+                    "id": 303,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "188:7:1",
@@ -120,15 +116,15 @@
               "src": "187:13:1"
             },
             "returnParameters": {
-              "id": 282,
+              "id": 312,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 277,
+                  "id": 307,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "223:3:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -137,7 +133,7 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 276,
+                    "id": 306,
                     "name": "int",
                     "nodeType": "ElementaryTypeName",
                     "src": "223:3:1",
@@ -151,10 +147,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 279,
+                  "id": 309,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "227:4:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -163,7 +159,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 278,
+                    "id": 308,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "227:4:1",
@@ -177,10 +173,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 281,
+                  "id": 311,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "232:4:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -189,7 +185,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 280,
+                    "id": 310,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "232:4:1",
@@ -204,31 +200,31 @@
               ],
               "src": "222:15:1"
             },
-            "scope": 284,
+            "scope": 314,
             "src": "170:68:1",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 285,
+        "scope": 315,
         "src": "35:206:1"
       }
     ],
     "src": "0:243:1"
   },
   "legacyAST": {
-    "absolutePath": "/C/company/code/ADOMedianizer/contracts/EIP2362Interface.sol",
+    "absolutePath": "/C/users/lloya/documents/dda/1tellor/tellor/projects/adomedianizer/contracts/EIP2362Interface.sol",
     "exportedSymbols": {
       "EIP2362Interface": [
-        284
+        314
       ]
     },
-    "id": 285,
+    "id": 315,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 272,
+        "id": 302,
         "literals": [
           "solidity",
           ">=",
@@ -247,9 +243,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 284,
+        "id": 314,
         "linearizedBaseContracts": [
-          284
+          314
         ],
         "name": "EIP2362Interface",
         "nodeType": "ContractDefinition",
@@ -257,22 +253,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 283,
+            "id": 313,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "valueFor",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 275,
+              "id": 305,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 274,
+                  "id": 304,
                   "name": "_id",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "188:11:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -281,7 +277,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 273,
+                    "id": 303,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "188:7:1",
@@ -297,15 +293,15 @@
               "src": "187:13:1"
             },
             "returnParameters": {
-              "id": 282,
+              "id": 312,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 277,
+                  "id": 307,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "223:3:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -314,7 +310,7 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 276,
+                    "id": 306,
                     "name": "int",
                     "nodeType": "ElementaryTypeName",
                     "src": "223:3:1",
@@ -328,10 +324,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 279,
+                  "id": 309,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "227:4:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -340,7 +336,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 278,
+                    "id": 308,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "227:4:1",
@@ -354,10 +350,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 281,
+                  "id": 311,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 283,
+                  "scope": 313,
                   "src": "232:4:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -366,7 +362,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 280,
+                    "id": 310,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "232:4:1",
@@ -381,14 +377,14 @@
               ],
               "src": "222:15:1"
             },
-            "scope": 284,
+            "scope": 314,
             "src": "170:68:1",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 285,
+        "scope": 315,
         "src": "35:206:1"
       }
     ],
@@ -396,11 +392,11 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.23",
-  "updatedAt": "2020-04-09T18:31:27.939Z",
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2020-04-10T19:34:42.394Z",
   "devdoc": {
     "methods": {}
   },

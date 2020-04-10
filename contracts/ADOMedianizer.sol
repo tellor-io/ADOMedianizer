@@ -1,4 +1,4 @@
-pragma solidity >=0.5.0 <0.7.0;
+pragma solidity ^0.5.0;
 
 import "./EIP2362Interface.sol";
 import "./SafeMath.sol";
@@ -43,7 +43,7 @@ contract ADOMedianizer is EIP2362Interface{
         int val;
         uint time;
         uint status;
-        uint len = 0;
+        uint len = 0; 
         uint num = oracles.length-1;
         for(uint i = 1; i<num ;i++){
            (val,time,status) = EIP2362Interface(oracles[i]).valueFor(_id);
@@ -71,12 +71,13 @@ contract ADOMedianizer is EIP2362Interface{
     */
     function removeOracle(address _oracle) restricted() external{
         uint index = oraclesIndex[_oracle];
-        // just add the -1???
+        // just add the -1???--Issue 11
         if(index != oracles.length-1){
             address last = oracles[oracles.length - 1];
             oracles[index] = last;
         }
-        oracles.length--;
+        //oracles.length--;
+        oracles.pop();
         oraclesIndex[_oracle] = 0;
     }
 
@@ -86,7 +87,7 @@ contract ADOMedianizer is EIP2362Interface{
     * @param a is the array containing the values submitted for the Id by all the oracles
     * @return median value
     */
-    function median(int256[] memory a) internal view returns(int){
+    function median(int256[] memory a) internal pure returns(int){
         uint256 i;
         for (i = 1; i < a.length; i++) {
             int256 temp = a[i];
@@ -100,7 +101,7 @@ contract ADOMedianizer is EIP2362Interface{
             }
         }
         uint256 m = a.length/2;
-        returns(a[m]);
+        return(a[m]);
     }
 
 }
