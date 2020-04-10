@@ -49,7 +49,7 @@ contract ADOMedianizer is EIP2362Interface{
            (val,time,status) = EIP2362Interface(oracles[i]).valueFor(_id);
               if(status == 200){
                   values[len] = val;
-                  len++;
+                  len++;//push only allowed in storage not memory...
               }
         }
         return (median(values),now,200);
@@ -76,7 +76,7 @@ contract ADOMedianizer is EIP2362Interface{
             address last = oracles[oracles.length - 1];
             oracles[index] = last;
         }
-        //oracles.length--;
+        //oracles.length--;//issue 3  ???--don't know how pop works..
         oracles.pop();
         oraclesIndex[_oracle] = 0;
     }
@@ -101,7 +101,7 @@ contract ADOMedianizer is EIP2362Interface{
             }
         }
         uint256 m = a.length/2;
-        return(a[m]);
+        return(a[m]);//issue 8 ???
     }
 
 }
