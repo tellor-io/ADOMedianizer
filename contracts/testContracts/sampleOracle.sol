@@ -16,7 +16,7 @@ contract SampleOracle is EIP2362Interface{
   
     /**
     * @dev Allows oracle provider to push the vlue for the corresponding _id
-    * @param _id is the standarized ADO data type/value pair Id
+    * @param _id is the  standardized  ADO data type/value pair Id
     * @param _value is the value 
     */
     function setValue(bytes32 _id, int256 _value) external{
@@ -26,10 +26,10 @@ contract SampleOracle is EIP2362Interface{
 
     /**
     * @dev Allows the ADOMedianizer to retreive the value, timestamp, and status for the specifed Id
-    * @param _id is the standarized ADO data type/value pair id
+    * @param _id is the  standardized ADO data type/value pair id
     * @return _value the value corresponding to the id
     * @return _timestamp is the unix timestamp
-    * @return _status is the standarized data status
+    * @return _status is the  standardized data status
     */
     function valueFor(bytes32 _id) external view returns(int _value,uint _timestamp,uint _status){
         uint len = timestampsByID[_id].length;

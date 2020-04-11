@@ -36,7 +36,7 @@ contract ADOMedianizer is EIP2362Interface{
 
     /**
     * @dev This function loops through the oracle addresses and medianizes the values
-    * @param _id the standarized ADO data type/value pair id
+    * @param _id the standardized ADO data type/value pair id
     * @return median value, timestamp and status
     */
     function valueFor(bytes32 _id) external view returns(int256,uint256,uint256){
