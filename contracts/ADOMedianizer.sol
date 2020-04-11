@@ -1,62 +1,107 @@
-pragma solidity >=0.5.0 <0.7.0;
+pragma solidity ^0.5.0;
+
 import "./EIP2362Interface.sol";
-import "./SafeMath.sol";
+
+/**
+* @title ADOMedianizer
+* @notice This contract allows the owner to specify multiple oracles
+* to use for collecting data and ultimately calculating the median of these
+*/
 
 contract ADOMedianizer is EIP2362Interface{
+    /*Variables*/ 
+    address public owner;
+    address[] public oracles;
+    mapping(address => uint256) public oraclesIndex;
 
-  address public owner;
-  address[] public oracles;
-  mapping(address => uint) index;
-
-
-  constructor() public {
-    owner = msg.sender;
-    oracles.push(address(0));
-  }
-
-  modifier restricted() {
-    if (msg.sender == owner) _;
-  }
-
-  function changeOwner(address _newOwner) restricted() public{
-    owner = _newOwner;
-  }
-
-  //This is the exposed EIP function that loops through the oracle addresses and medianizes the values
-  function valueFor(bytes32 _id) external view returns(int,uint,uint){
-    int[] memory values;
-    int _val;
-    uint _time;
-    uint _status;
-    uint len = 0;
-    for(uint i = 0; i< oracles.length;i++){
-      (_val,_time,_status) = EIP2362Interface(oracles[i]).valueFor(_id);
-      if(_status == 200){
-        values[len] = _val;
-        len++;
-      }
+  
+    constructor() public {
+        owner = msg.sender;
+        oracles.push(address(0));
     }
-    return (median(values),now,200);
+
+
+    modifier restricted() {
+        if (msg.sender == owner) _;
+    }
+
+    /*Functions*/
+    /**
+    * @dev allows owner to transfer ownership
+    * @param _newOwner is the address ownership is being transferred to
+    */
+    function changeOwner(address _newOwner) restricted() external{
+        owner = _newOwner;
+    }
+
+    /**
+    * @dev This function loops through the oracle addresses and medianizes the values
+    * @param _id the standardized ADO data type/value pair id
+    * @return median value, timestamp and status
+    */
+    function valueFor(bytes32 _id) external view returns(int256,uint256,uint256){
+        if(oracles.length >= 2){
+          int256[] memory values = new int256[](oracles.length-1);
+          int256 val;
+          uint256 time;
+          uint256 status;
+          uint256 len = 0; 
+          for(uint256 pos = 1; pos < oracles.length;pos++){
+             (val,time,status) = EIP2362Interface(oracles[pos]).valueFor(_id);
+                if(status == 200){
+                    values[len] = val;
+                    len++;
+                }
+          }
+          if(len > 0){
+            return (median(values,len),now,200);
+          }
+          else{
+            return(0,0,400);
+          }
+        }
+        return(0,0,404);
   } 
 
-  function addOracle(address _oracle) restricted() external{
-    index[_oracle] = oracles.length;
-    oracles.push(_oracle);
-  }
-
-  function removeOracle(address _oracle) restricted() external{
-    uint _index = index[_oracle];
-    if(_index != oracles.length){
-      address last = oracles[oracles.length - 1];
-      oracles[_index] = last;
+    /**
+    * @dev Allows owner to add an oracle provider
+    * @param _oracle is the oracle address for the oracle being added
+    */
+    function addOracle(address _oracle) restricted() external{
+        oraclesIndex[_oracle] = oracles.length;
+        oracles.push(_oracle);
     }
-    oracles.length--;
-    index[_oracle] = 0;
-  }
 
-  function median(int256[] memory a) internal view returns(int){
-        uint256 i;
-        for (i = 1; i < a.length; i++) {
+
+    /**
+    * @dev Allows the owner to remove an oracle provider
+    * @param _oracle is the oracle address for the oracle being excluded
+    */
+    function removeOracle(address _oracle) restricted() external{
+        uint256 index = oraclesIndex[_oracle];
+        if(index != oracles.length-1){
+            address last = oracles[oracles.length - 1];
+            oracles[index] = last;
+        }
+        oracles.pop();
+        oraclesIndex[_oracle] = 0;
+    }
+
+    /**
+    * @dev Getter returning an array of all oracles in this contract
+    * Note: the 0 slot is filled with the 0 address
+    */
+    function getOracles() external view returns(address[] memory _oracles){
+      return oracles;
+    }
+
+    /**
+    * @dev Internal function that sorts values submitted by oracles and returns the median
+    * @param a is the array containing the values submitted for the Id by all the oracles
+    * @return median value
+    */
+    function median(int256[] memory a, uint256 len) internal pure returns(int256){
+        for (uint256 i = 1; i < len; i++) {
             int256 temp = a[i];
             uint256 j = i;
             while (j > 0 && temp < a[j - 1]) {
@@ -67,6 +112,8 @@ contract ADOMedianizer is EIP2362Interface{
                 a[j]= temp;
             }
         }
-  }
+        uint256 m = len/2;
+        return(a[m]);
+    }
 
 }

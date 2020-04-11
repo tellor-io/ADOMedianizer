@@ -1,0 +1,30 @@
+{
+  "name": "adomedianizer",
+  "version": "1.0.0",
+  "description": "Median of multiple oracles",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tellor-io/ADOMedianizer.git"
+  },
+  "keywords": [
+    "ado",
+    "oracle",
+    "median"
+  ],
+  "author": "ado",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tellor-io/ADOMedianizer/issues"
+  },
+  "homepage": "https://github.com/tellor-io/ADOMedianizer#readme",
+  "dependencies": {
+    "web3": "^1.2.6"
+  }
+}
