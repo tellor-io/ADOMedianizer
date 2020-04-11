@@ -5,7 +5,7 @@
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:8545'));  
 const ADOMedianizer = artifacts.require("./ADOMedianizer.sol");
-const SampleOracle = artifacts.require("./testContracts/sampleOracle.sol");
+const SampleOracle = artifacts.require("./testContracts/SampleOracle.sol");
 var bytes = "0x2ecc80a3401165e1a04561d6ffe93662a31815d89cd63b00f248efd1cce47894";
 
 contract('ADO Medianizer Tests', function(accounts) {

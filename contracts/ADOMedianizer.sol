@@ -2,6 +2,12 @@ pragma solidity ^0.5.0;
 
 import "./EIP2362Interface.sol";
 
+/**
+* @title ADOMedianizer
+* @notice This contract allows the owner to specify multiple oracles
+* to use for collecting data and ultimately calculating the median of these
+*/
+
 contract ADOMedianizer is EIP2362Interface{
     /*Variables*/ 
     address public owner;
