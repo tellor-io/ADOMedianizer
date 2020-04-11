@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/tellor-io/ADOMedianizer/issues"
   },
-  "homepage": "https://github.com/tellor-io/ADOMedianizer#readme"
+  "homepage": "https://github.com/tellor-io/ADOMedianizer#readme",
+  "dependencies": {
+    "web3": "^1.2.6"
+  }
 }

@@ -29,10 +29,11 @@ contract SampleOracle is EIP2362Interface{
     * @return _status is the standarized data status
     */
     function valueFor(bytes32 _id) external view returns(int _value,uint _timestamp,uint _status){
-        _timestamp = timestampsByID[_id][timestampsByID[_id].length - 1];
-        if(_timestamp > 0){
+        uint len = timestampsByID[_id].length;
+        if(len > 0){
+            _timestamp = timestampsByID[_id][len - 1];
            	return(valuesByID[_id][_timestamp],_timestamp,200);
 	      }
-	      else return(0,0,404);
+	   else return(0,0,404);
     } 
 }

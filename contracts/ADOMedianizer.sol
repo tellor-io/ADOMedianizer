@@ -1,13 +1,12 @@
 pragma solidity ^0.5.0;
 
 import "./EIP2362Interface.sol";
-import "./SafeMath.sol";
 
 contract ADOMedianizer is EIP2362Interface{
     /*Variables*/ 
     address public owner;
     address[] public oracles;
-    mapping(address => uint) public oraclesIndex;
+    mapping(address => uint256) public oraclesIndex;
 
   
     constructor() public {
@@ -32,27 +31,31 @@ contract ADOMedianizer is EIP2362Interface{
     /**
     * @dev This function loops through the oracle addresses and medianizes the values
     * @param _id the standarized ADO data type/value pair id
-    * @return median, timestamp and status
+    * @return median value, timestamp and status
     */
-    function valueFor(bytes32 _id) external view returns(int,uint,uint){
-        //make sure the array is not empty
-        //should there be a minimum values avaialbe?--this basically makes i
-        // a requirement to include at leas x amount of oracles, in this example: 3 
-        require(oracles.length-1 > 1, "No values available for this Id");
-        int[] memory values;
-        int val;
-        uint time;
-        uint status;
-        uint len = 0; 
-        uint num = oracles.length-1;
-        for(uint i = 1; i<num ;i++){
-           (val,time,status) = EIP2362Interface(oracles[i]).valueFor(_id);
-              if(status == 200){
-                  values[len] = val;
-                  len++;//push only allowed in storage not memory...
-              }
+    function valueFor(bytes32 _id) external view returns(int256,uint256,uint256){
+        if(oracles.length >= 2){
+          int256[] memory values = new int256[](oracles.length-1);
+          int256 val;
+          uint256 time;
+          uint256 status;
+          uint256 len = 0; 
+          for(uint256 pos = 1; pos < oracles.length;pos++){
+             (val,time,status) = EIP2362Interface(oracles[pos]).valueFor(_id);
+                if(status == 200){
+                    values[len] = val;
+                    len++;
+                }
+          }
+          if(len > 0){
+            return (median(values,len),now,200);
+            //return(int(values.length),len,200);
+          }
+          else{
+            return(0,0,400);
+          }
         }
-        return (median(values),now,200);
+        return(0,0,404);
   } 
 
     /**
@@ -70,7 +73,7 @@ contract ADOMedianizer is EIP2362Interface{
     * @param _oracle is the oracle address for the oracle being excluded
     */
     function removeOracle(address _oracle) restricted() external{
-        uint index = oraclesIndex[_oracle];
+        uint256 index = oraclesIndex[_oracle];
         // just add the -1???--Issue 11
         if(index != oracles.length-1){
             address last = oracles[oracles.length - 1];
@@ -81,15 +84,21 @@ contract ADOMedianizer is EIP2362Interface{
         oraclesIndex[_oracle] = 0;
     }
 
+    /**
+    * @dev Getter returning an array of all oracles in this contract
+    * Note: the 0 slot is filled with the 0 address
+    */
+    function getOracles() external view returns(address[] memory _oracles){
+      return oracles;
+    }
 
     /**
     * @dev Internal function that sorts values submitted by oracles and returns the median
     * @param a is the array containing the values submitted for the Id by all the oracles
     * @return median value
     */
-    function median(int256[] memory a) internal pure returns(int){
-        uint256 i;
-        for (i = 1; i < a.length; i++) {
+    function median(int256[] memory a, uint256 len) internal pure returns(int256){
+        for (uint256 i = 1; i < len; i++) {
             int256 temp = a[i];
             uint256 j = i;
             while (j > 0 && temp < a[j - 1]) {
@@ -100,8 +109,8 @@ contract ADOMedianizer is EIP2362Interface{
                 a[j]= temp;
             }
         }
-        uint256 m = a.length/2;
-        return(a[m]);//issue 8 ??? does solidity round up?
+        uint256 m = len/2;
+        return(a[m]);
     }
 
 }

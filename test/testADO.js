@@ -13,55 +13,67 @@ var bytes = "0x2ecc80a3401165e1a04561d6ffe93662a31815d89cd63b00f248efd1cce47894"
 
 contract('ADO Medianizer Tests', function(accounts) {
   let adoMedianizer;
-  let sampleOracle;
+  let sampleOracle1,sampleOracle2,sampleOracle3;
 
     beforeEach('Setup contract for each test', async function () {
-    	//Deploy multiple oracles
-     //    for (var i =1;i<4;i++){
-     //    let name = "sampleOracle" + i; 
-     //    console.log("name", name)
-    	// name = await SampleOracle.new()
-    	// console.log(name.address)
-    	// await name.setValue(bytes, i)
-    	// console.log("i", i)
-     //    }
-
         sampleOracle1 = await SampleOracle.new()
         sampleOracle2 = await SampleOracle.new()
         sampleOracle3 = await SampleOracle.new()
-
-        await sampleOracle1.setValue(bytes, 1)
-        await sampleOracle2.setValue(bytes, 2)
-        await sampleOracle3.setValue(bytes, 3)
-
         //deploy medianizer contract
     	adoMedianizer = await ADOMedianizer.new()
-    	console.log(adoMedianizer.address)
-
         //add oracles to medianizer
     	await adoMedianizer.addOracle(sampleOracle1.address)
-    	console.log(1)
     	await adoMedianizer.addOracle(sampleOracle2.address)
-    	console.log(2)
     	await adoMedianizer.addOracle(sampleOracle3.address)
-    	console.log(3)
     })
-
-    it("Test SampleOracle.valueFor", async function(){
-        let vars = await sampleOracle1.valueFor(bytes)
-        console.log("vars", vars)
-    })
-
     it("Test ADOMEdianizer.valueFor", async function(){
-        let vars1 = await adoMedianizer.valueFor(bytes)
-        console.log("vars1", vars)
+        await sampleOracle1.setValue(bytes,1000)
+        await sampleOracle2.setValue(bytes,2000)
+        await sampleOracle3.setValue(bytes,3000)
+        let vars = await adoMedianizer.valueFor(bytes)
+        assert(vars[0] == 2000)
+        assert(vars[1] > 0)
+        assert(vars[2] == 200)
     })
-
-    // it("Test ADOMEdianizer.removeOracle", async function(){
-    //     let vars2 = await adoMedianizer.removeOracle(sampleOracle1)
-    //     console.log("vars1", vars)
-
-    // })
-
-
+    it("Test remove oracles", async function(){
+        let vars = await adoMedianizer.getOracles();
+        assert(vars[1] = sampleOracle1.address);
+        assert(vars[2] = sampleOracle2.address);
+        assert(vars[3] = sampleOracle3.address);
+        assert(vars.length == 4);
+        await adoMedianizer.removeOracle(accounts[2]);
+        vars = await adoMedianizer.getOracles();
+        assert(vars[1] = sampleOracle1.address);
+        assert(vars[2] = sampleOracle3.address);
+        assert(vars.length == 3);
+    })
+    it("Test no oracles", async function(){  
+        await adoMedianizer.removeOracle(accounts[1]);
+        await adoMedianizer.removeOracle(accounts[2]);
+        await adoMedianizer.removeOracle(accounts[3]);  
+        let vars = await adoMedianizer.getOracles();
+        assert(vars.length == 1); 
+        vars = await adoMedianizer.valueFor(bytes)
+        assert(vars[0] == 0);
+        assert(vars[1] == 0);
+        assert(vars[2] == 404)
+    })
+    it("Test no value", async function(){
+        let vars = await adoMedianizer.valueFor(bytes)
+        assert(vars[0] == 0);
+        assert(vars[1] == 0);
+        assert(vars[2] == 400)
+    })
+    it("Test ownership change", async function(){
+        assert(await adoMedianizer.owner.call() == accounts[0])
+        await adoMedianizer.changeOwner(accounts[1])
+        assert(await adoMedianizer.owner.call() == accounts[1])
+    })
+    it("Test get oracles", async function(){
+        let vars = await adoMedianizer.getOracles();
+        assert(vars[1] = sampleOracle1.address);
+        assert(vars[2] = sampleOracle2.address);
+        assert(vars[3] = sampleOracle3.address);
+        assert(vars.length == 4);
+    })
  });
