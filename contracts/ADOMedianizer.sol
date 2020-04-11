@@ -49,7 +49,6 @@ contract ADOMedianizer is EIP2362Interface{
           }
           if(len > 0){
             return (median(values,len),now,200);
-            //return(int(values.length),len,200);
           }
           else{
             return(0,0,400);
@@ -74,12 +73,10 @@ contract ADOMedianizer is EIP2362Interface{
     */
     function removeOracle(address _oracle) restricted() external{
         uint256 index = oraclesIndex[_oracle];
-        // just add the -1???--Issue 11
         if(index != oracles.length-1){
             address last = oracles[oracles.length - 1];
             oracles[index] = last;
         }
-        //oracles.length--;//issue 3  ???--don't know how pop works..
         oracles.pop();
         oraclesIndex[_oracle] = 0;
     }
