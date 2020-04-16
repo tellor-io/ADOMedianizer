@@ -51,12 +51,15 @@ contract ADOMedianizerV2 is IERC2362, Ownable
 
 		for (uint256 i = 0; i < oracles.length(); ++i)
 		{
-			(int256 val, uint256 time, uint256 status) = IERC2362(oracles.at(i)).valueFor(_id);
-			if (status >= 200 && status < 300 && time + validity > now) // valid HTTP status are all 2xx
+			try IERC2362(oracles.at(i)).valueFor(_id) returns (int256 val, uint256 time, uint256 status)
 			{
-				values[length] = val;
-				++length;
+				if (status >= 200 && status < 300 && time + validity > now) // valid HTTP status are all 2xx
+				{
+					values[length] = val;
+					++length;
+				}
 			}
+			catch (bytes memory /*lowLevelData*/) {}
 		}
 
 		if (length == 0) { return (0, 0, 400); }
