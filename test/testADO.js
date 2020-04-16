@@ -16,19 +16,55 @@ contract('ADO Medianizer Tests', function(accounts) {
         sampleOracle1 = await SampleOracle.new()
         sampleOracle2 = await SampleOracle.new()
         sampleOracle3 = await SampleOracle.new()
+        
+        
         //deploy medianizer contract
     	adoMedianizer = await ADOMedianizer.new()
         //add oracles to medianizer
     	await adoMedianizer.addOracle(sampleOracle1.address)
     	await adoMedianizer.addOracle(sampleOracle2.address)
     	await adoMedianizer.addOracle(sampleOracle3.address)
+        
+        
     })
     it("Test ADOMEdianizer.valueFor", async function(){
+        await sampleOracle1.setValue(bytes,1000) 
+        await sampleOracle2.setValue(bytes,2000) 
+        await sampleOracle3.setValue(bytes,3000) 
+        let vars = await adoMedianizer.valueFor(bytes)
+        console.log('vars[0]', web3.utils.hexToNumberString(vars[0]))
+        assert(vars[0] == 2000)
+        assert(vars[1] > 0)
+        assert(vars[2] == 200)
+    })
+
+        it("Test ADOMEdianizer.valueFor 4 oracles", async function(){
+        sampleOracle4 = await SampleOracle.new()
+        await adoMedianizer.addOracle(sampleOracle4.address)
+        await sampleOracle1.setValue(bytes,1000) 
+        await sampleOracle2.setValue(bytes,2000) 
+        await sampleOracle3.setValue(bytes,3000) 
+        await sampleOracle4.setValue(bytes,4000) 
+        let vars = await adoMedianizer.valueFor(bytes)
+        console.log('vars[0]', web3.utils.hexToNumberString(vars[0]))
+        assert(vars[0] == 2500)
+        assert(vars[1] > 0)
+        assert(vars[2] == 200)
+    })
+
+    it("Test ADOMEdianizer.valueFor 5 oracles", async function(){
+        sampleOracle4 = await SampleOracle.new()
+        sampleOracle5 = await SampleOracle.new()
+        await adoMedianizer.addOracle(sampleOracle4.address)
+        await adoMedianizer.addOracle(sampleOracle4.address)
         await sampleOracle1.setValue(bytes,1000)
         await sampleOracle2.setValue(bytes,2000)
         await sampleOracle3.setValue(bytes,3000)
+        await sampleOracle4.setValue(bytes,4000)
+        await sampleOracle5.setValue(bytes,5000)
         let vars = await adoMedianizer.valueFor(bytes)
-        assert(vars[0] == 2000)
+        console.log('vars[0]', web3.utils.hexToNumberString(vars[0]))
+        assert(vars[0] == 3000)
         assert(vars[1] > 0)
         assert(vars[2] == 200)
     })

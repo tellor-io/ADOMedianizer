@@ -95,6 +95,7 @@ contract ADOMedianizer is EIP2362Interface{
       return oracles;
     }
 
+
     /**
     * @dev Internal function that sorts values submitted by oracles and returns the median
     * @param a is the array containing the values submitted for the Id by all the oracles
@@ -112,8 +113,22 @@ contract ADOMedianizer is EIP2362Interface{
                 a[j]= temp;
             }
         }
+
         uint256 m = len/2;
-        return(a[m]);
+        int256 x;
+
+        if (len % 2 == 0) {
+             uint256 n = m-1;
+
+              x = (a[m] + a[n])/2;
+        } else {
+              x = a[m];
+        }
+        return(x);
+
     }
+
+
+
 
 }
