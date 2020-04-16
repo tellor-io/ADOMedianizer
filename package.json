@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/tellor-io/ADOMedianizer#readme",
   "dependencies": {
+    "@openzeppelin/contracts": "^3.0.0-rc.1",
     "web3": "^1.2.6"
   }
 }
