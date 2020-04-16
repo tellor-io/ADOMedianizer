@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 import "./EIP2362Interface.sol";
 
@@ -9,12 +9,12 @@ import "./EIP2362Interface.sol";
 */
 
 contract ADOMedianizer is EIP2362Interface{
-    /*Variables*/ 
+    /*Variables*/
     address public owner;
     address[] public oracles;
     mapping(address => uint256) public oraclesIndex;
 
-  
+
     constructor() public {
         owner = msg.sender;
         oracles.push(address(0));
@@ -39,13 +39,13 @@ contract ADOMedianizer is EIP2362Interface{
     * @param _id the standardized ADO data type/value pair id
     * @return median value, timestamp and status
     */
-    function valueFor(bytes32 _id) external view returns(int256,uint256,uint256){
+    function valueFor(bytes32 _id) external view override returns(int256,uint256,uint256){
         if(oracles.length >= 2){
           int256[] memory values = new int256[](oracles.length-1);
           int256 val;
           uint256 time;
           uint256 status;
-          uint256 len = 0; 
+          uint256 len = 0;
           for(uint256 pos = 1; pos < oracles.length;pos++){
              (val,time,status) = EIP2362Interface(oracles[pos]).valueFor(_id);
                 if(status == 200){
@@ -61,7 +61,7 @@ contract ADOMedianizer is EIP2362Interface{
           }
         }
         return(0,0,404);
-  } 
+  }
 
     /**
     * @dev Allows owner to add an oracle provider
