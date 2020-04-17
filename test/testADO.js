@@ -34,22 +34,22 @@ contract('ADO Medianizer Tests', function(accounts) {
     })
     it("Test remove oracles", async function(){
         let vars = await adoMedianizer.getOracles();
-        assert(vars[1] = sampleOracle1.address);
-        assert(vars[2] = sampleOracle2.address);
-        assert(vars[3] = sampleOracle3.address);
-        assert(vars.length == 4);
-        await adoMedianizer.removeOracle(accounts[2]);
-        vars = await adoMedianizer.getOracles();
-        assert(vars[1] = sampleOracle1.address);
-        assert(vars[2] = sampleOracle3.address);
+        assert(vars[0] == sampleOracle1.address);
+        assert(vars[1] == sampleOracle2.address);
+        assert(vars[2] == sampleOracle3.address);
         assert(vars.length == 3);
+        await adoMedianizer.removeOracle(sampleOracle1.address);
+        vars = await adoMedianizer.getOracles();
+        assert(vars[0] == sampleOracle3.address);
+        assert(vars[1] == sampleOracle2.address);
+        assert(vars.length == 2);
     })
     it("Test no oracles", async function(){  
-        await adoMedianizer.removeOracle(accounts[1]);
-        await adoMedianizer.removeOracle(accounts[2]);
-        await adoMedianizer.removeOracle(accounts[3]);  
+        await adoMedianizer.removeOracle(sampleOracle1.address);
+        await adoMedianizer.removeOracle(sampleOracle2.address);
+        await adoMedianizer.removeOracle(sampleOracle3.address);  
         let vars = await adoMedianizer.getOracles();
-        assert(vars.length == 1); 
+        assert(vars.length == 0, "should be nor oracles"); 
         vars = await adoMedianizer.valueFor(bytes)
         assert(vars[0] == 0);
         assert(vars[1] == 0);
@@ -63,14 +63,14 @@ contract('ADO Medianizer Tests', function(accounts) {
     })
     it("Test ownership change", async function(){
         assert(await adoMedianizer.owner.call() == accounts[0])
-        await adoMedianizer.changeOwner(accounts[1])
+        await adoMedianizer.transferOwnership(accounts[1])
         assert(await adoMedianizer.owner.call() == accounts[1])
     })
     it("Test get oracles", async function(){
-        let vars = await adoMedianizer.getOracles();
-        assert(vars[1] = sampleOracle1.address);
-        assert(vars[2] = sampleOracle2.address);
-        assert(vars[3] = sampleOracle3.address);
-        assert(vars.length == 4);
+        let vars2 = await adoMedianizer.getOracles();
+        assert(vars2[0] == sampleOracle1.address);
+        assert(vars2[1] == sampleOracle2.address);
+        assert(vars2[2] == sampleOracle3.address);
+        assert(vars2.length == 3);
     })
  });

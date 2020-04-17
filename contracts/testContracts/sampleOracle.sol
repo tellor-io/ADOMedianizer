@@ -1,5 +1,5 @@
 pragma solidity ^0.6.0;
-import "../EIP2362Interface.sol";
+import "../IERC2362.sol";
 
 /**
 * @title sampleOracle
@@ -9,7 +9,7 @@ import "../EIP2362Interface.sol";
 * ADOMedianizer.sol contract.
 */
 
-contract SampleOracle is EIP2362Interface{
+contract SampleOracle is IERC2362{
     /*Variables*/
     mapping(bytes32=>mapping(uint=>int256)) valuesByID;
     mapping (bytes32 => uint[]) timestampsByID;
